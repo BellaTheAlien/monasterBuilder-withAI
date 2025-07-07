@@ -1,4 +1,5 @@
 import { AIMessage, BaseMessage, HumanMessage } from "@langchain/core/messages";
+import { getChatResponce } from "./modelConnector";
 
 const chatHistoryList = document.querySelector("#chat-history");
 const chatInputField = document.querySelector("#llm-chat-input");
@@ -44,3 +45,77 @@ document.querySelector("#llm-chat-form").addEventListener("submit", async functi
     }
     
 });
+
+export function addChatMessage(chatMessage) {
+    chatHistory.push(chatMessage);
+
+    let displayContent = chatMessage.content;
+    if (typeof displayContent === "object") {
+        console.log("Detected object message in addChatMessage: ", displayContent);
+        displayContent = JSON.stringify(displayContent);
+    }
+
+    const messageItem = document.createElement("li");
+    messageItem.innerHTML = `<strong>${chatMessage.getType().toString.toUpperCase()}:</strong> ${displayContent}`;
+    messageItem.style.marginBottom = "10px";
+    chatHistoryList.appendChild(messageItem);
+    return messageItem;
+}
+
+const observer = new MutationObserver(() => {
+    chatHistoryList.scrollTop = chatHistoryList.scrollHeight;
+});
+
+observer.observe(chatHistoryList, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    characterData: true,
+});
+
+document.addEventListener("chatResponseStart", () => {
+    chatInputField.disabled = true;
+    chatSubmitButton.disabled = true;
+    chatInputField.value = "Thinking...";
+});
+
+document.addEventListener("chatResponseEnd", () => {
+    chatInputField.disabled = false;
+    chatSubmitButton.disabled = false;
+    chatInputField.value = "";
+    chatInputField.focus();
+});
+
+export async function sendSystemMessge(message) {
+    const sendSystemMessge = new HumanMessage(message);
+    document.dispatchEvent(new CustomEvent("chatResponseStart"));
+
+    try {
+        const botResponseEntry = await getChatResponce([
+            ...chatHistory,
+            systemMessage,
+        ]);
+
+        if(botResponseEntry.startsWith("Error:")){
+            addChatMessage(
+                new AIMessage(
+                    "Oops, there was a problem: " +
+                    botResponseEntry.replace(/^Error:\s*/, "")
+                )
+            );
+        } else {
+            addChatMessage(new AIMessage(botResponseEntry));
+        }
+    } catch (exception) {
+        const errorMessage = exception instanceof Error ? exception.message : "Unknown error";
+        addChatMessage(new AIMessage("Error: " + errorMessage));
+    } finally {
+        document.dispatchEvent(new CustomEvent("chatResponseEnd"));
+    }
+}
+
+export function clearChatHistory() {
+    chatHistory.innerHTML = "";
+    chatHistory.length = 1;
+    console.log(chatHistory);
+}
