@@ -13,7 +13,7 @@ import { initializeTools, registerTool } from "../languageModel/modelConnector.j
 import { sendSystemMessge } from "../languageModel/chatBox.js";
 
 const tools = {
-    body: new BodyTool(getScene),
+    body: new BodyTool,
 };
 
 Object.values(tools).forEach((generator) => {

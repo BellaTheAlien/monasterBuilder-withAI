@@ -1,5 +1,5 @@
 import { AIMessage, BaseMessage, HumanMessage } from "@langchain/core/messages";
-import { getChatResponce } from "./modelConnector";
+import { getChatResponce, initializeLLM } from "./modelConnector";
 
 const chatHistoryList = document.querySelector("#chat-history");
 const chatInputField = document.querySelector("#llm-chat-input");
@@ -15,7 +15,7 @@ document.querySelector("#llm-chat-form").addEventListener("submit", async functi
     event.preventDefault();
 
     const userInputField = document.querySelector("#llm-chat-input");
-    const userMessage = userInputField.ariaValueMax.trim();
+    const userMessage = userInputField.value.trim();
 
     if(!userMessage) return;
     userInputField.value = "";
@@ -56,7 +56,7 @@ export function addChatMessage(chatMessage) {
     }
 
     const messageItem = document.createElement("li");
-    messageItem.innerHTML = `<strong>${chatMessage.getType().toString.toUpperCase()}:</strong> ${displayContent}`;
+    messageItem.innerHTML = `<strong>${chatMessage.getType().toUpperCase()}:</strong> ${displayContent}`;
     messageItem.style.marginBottom = "10px";
     chatHistoryList.appendChild(messageItem);
     return messageItem;
@@ -87,7 +87,7 @@ document.addEventListener("chatResponseEnd", () => {
 });
 
 export async function sendSystemMessge(message) {
-    const sendSystemMessge = new HumanMessage(message);
+    const systemMessage = new HumanMessage(message);
     document.dispatchEvent(new CustomEvent("chatResponseStart"));
 
     try {

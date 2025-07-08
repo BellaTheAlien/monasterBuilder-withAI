@@ -6,3 +6,5 @@ Taken from a passed CMPM 150 assignment: Build A Monster,
 The "style.css" file it originally from Thomas Wessel on github, used with gratitude.
 
 Uses Kenny Assets "[Monster Builder Pack](https://kenney.nl/assets/monster-builder-pack)" set, with gratitude.
+
+npm run dev

@@ -1,5 +1,5 @@
-import {tool} from "langchain/tools";
-import {monsterScene} from "../../src/Scenes/Monster.js";
+//import {tool} from "langchain/tools";
+//import {monsterScene} from "../../src/Scenes/Monster.js";
 
 export class BodyTool {
     constructor(sceneGetter) {

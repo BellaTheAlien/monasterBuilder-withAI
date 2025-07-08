@@ -1,6 +1,6 @@
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-import { BaseMessage, ToolMessage, SystemMessage } from "@langchain/core/messages";
-import { tool } from "@langchain/core/tools";
+import {ChatGoogleGenerativeAI} from "@langchain/google-genai";
+import {BaseMessage, ToolMessage, SystemMessage} from "@langchain/core/messages";
+import {tool} from "@langchain/core/tools";
 
 const llmTemp = 0;
 
@@ -10,10 +10,14 @@ const sysPromt = "You are createing you own personalized monster. You\'ll have a
 let tools = [];
 let toolsByName = {};
 
+const apiKey = import.meta.env.VITE_LLM_KEY;
+console.log(apiKey);
+
 const llm = new ChatGoogleGenerativeAI({
   model: "gemini-2.0-flash",
   temperature: llmTemp,
   maxRetries: 2,
+  apiKey: apiKey,
 });
 
 let llmWithTools = null;
@@ -33,7 +37,7 @@ export function initializeTools(){
         return;
     }
     llmWithTools = llm.bindTools(tools);
-    console.log("Bond following tools to LLM: ", object.keys(toolsByName));
+    console.log("Bond following tools to LLM: ", Object.keys(toolsByName));
 }
 
 export async function initializeLLM(ChatMessageHistory) {

@@ -55,7 +55,7 @@ class Monster extends Phaser.Scene {
         this.load.atlasXML("monsterParts", "spritesheet_default.png", "spritesheet_default.xml");
         
         // update instruction text
-        document.getElementById('description').innerHTML = '<h2>Monster.js<br>S - smile // F - show fangs<br>A - move left // D - move right</h2>'
+        //document.getElementById('description').innerHTML = '<h2>Monster.js<br>S - smile // F - show fangs<br>A - move left // D - move right</h2>'
     }
 
     create() {
@@ -96,6 +96,7 @@ class Monster extends Phaser.Scene {
         my.sprite.earLeft.flipX = true;
 
         //Event input: fang to sad face - event inputs keeps the change
+        /*
         let sadKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         let fangKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
@@ -108,11 +109,12 @@ class Monster extends Phaser.Scene {
             my.sprite.mouthSad.visible = false;
             my.sprite.mouthFang.visible = true;
         });
+        */
 
         //keyboard polling:
         //setting the "A" and "D" keys
-        this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        //this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        //this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         
     }
@@ -124,6 +126,7 @@ class Monster extends Phaser.Scene {
 
         //updateing the postion of each sprite when "A" key is down
         //moving to the left
+        /*
         if(this.aKey.isDown){
             //we go through each of the "my.sprite" calls - each one has a sprite with an 'x' axes that can be changed
             for( let curr in my.sprite){
@@ -138,8 +141,11 @@ class Monster extends Phaser.Scene {
                 my.sprite[curr].x += speed;
             }
         }
+            */
 
        
     }
 
 }
+
+//export const monsterScene = Monster;
