@@ -7,6 +7,7 @@
 // Art assets from Kenny Assets "Monster Builder Pack" set:
 // https://kenney.nl/assets/monster-builder-pack
 
+import "./style.css";
 import { BodyTool } from "../languageModel/tools/bodyTool.js";
 import { initializeTools, registerTool } from "../languageModel/modelConnector.js";
 import { sendSystemMessge } from "../languageModel/chatBox.js";

@@ -19,7 +19,11 @@ const llm = new ChatGoogleGenerativeAI({
 let llmWithTools = null;
 
 export function registerTool(tool) {
-    if (toolsByName[tool.name] = tool);
+    if (toolsByName[tool.name]) { // = tool
+        console.log(`Tool "${tool.name}", already registered: overwriting.`); // , tool.name
+    }
+    tools.push(tools);
+    toolsByName[tool.name] = tool;
     console.log("Tool Registered: ", tool.name);
 }
 
@@ -28,8 +32,12 @@ export function initializeTools(){
         console.error("Attempting to init tools when model is already bound!");
         return;
     }
-    llmWithTools = LockManager.bindTools(tools);
+    llmWithTools = llm.bindTools(tools);
     console.log("Bond following tools to LLM: ", object.keys(toolsByName));
+}
+
+export async function initializeLLM(ChatMessageHistory) {
+    ChatMessageHistory.push(new SystemMessage(sysPromt));
 }
 
 export async function getChatResponce(ChatMessageHistory) {
