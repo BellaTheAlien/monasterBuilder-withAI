@@ -4,14 +4,14 @@ import {tool} from "@langchain/core/tools";
 
 const llmTemp = 0;
 
-const sysPromt = "You are createing you own personalized monster. You\'ll have access to a few tools that can help you make your monster";
+const sysPrompt = "You are createing you own personalized monster. You\'ll have access to a few tools that can help you make your monster";
 
 
 let tools = [];
 let toolsByName = {};
 
 const apiKey = import.meta.env.VITE_LLM_KEY;
-console.log(apiKey);
+//console.log(apiKey);
 
 const llm = new ChatGoogleGenerativeAI({
   model: "gemini-2.0-flash",
@@ -41,22 +41,17 @@ export function initializeTools(){
 }
 
 export async function initializeLLM(ChatMessageHistory) {
-    ChatMessageHistory.push(new SystemMessage(sysPromt));
+    ChatMessageHistory.push(new SystemMessage(sysPrompt));
 }
 
-export async function getChatResponce(ChatMessageHistory) {
+export async function getChatResponse(ChatMessageHistory) {
     if (!llmWithTools) {
         throw new Error("LLM not initialized yet");
     }
 
     try {
         let response = await llmWithTools.invoke(ChatMessageHistory);
-        console.log(
-            `Message sent to LLM`,
-            ChatMessageHistory,
-            `and received: `,
-            response
-        );
+        console.log("Message sent to LLM", ChatMessageHistory, "and received: ", response);
 
         ChatMessageHistory.push(response);
 
@@ -82,7 +77,7 @@ export async function getChatResponce(ChatMessageHistory) {
                 ChatMessageHistory.push(
                     new ToolMessage({
                         name: toolCall.name,
-                        constent: result,
+                        content: result,
                         tool_call_id: String(toolCall.id || ""),
                     })
                 );
@@ -108,7 +103,7 @@ export async function getChatResponce(ChatMessageHistory) {
             console.log("Raw LLM response after tool calls: ", response);
         }
 
-        let resultContent = response.constent;
+        let resultContent = response.content;
         if (typeof resultContent !== "string") {
             console.log("Non-string AI response detected:", resultContent);
             resultContent = JSON.stringify(resultContent);

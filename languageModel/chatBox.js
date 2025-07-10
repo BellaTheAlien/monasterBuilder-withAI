@@ -1,5 +1,5 @@
 import { AIMessage, BaseMessage, HumanMessage } from "@langchain/core/messages";
-import { getChatResponce, initializeLLM } from "./modelConnector";
+import { getChatResponse, initializeLLM } from "./modelConnector";
 
 const chatHistoryList = document.querySelector("#chat-history");
 const chatInputField = document.querySelector("#llm-chat-input");
@@ -26,7 +26,7 @@ document.querySelector("#llm-chat-form").addEventListener("submit", async functi
     let botResponseEntry;
 
     try {
-        botResponseEntry = await getChatResponce(chatHistory);
+        botResponseEntry = await getChatResponse(chatHistory);
         if (botResponseEntry.startsWith("Error:")) {
             addChatMessage(
                 new AIMessage(
@@ -91,7 +91,7 @@ export async function sendSystemMessge(message) {
     document.dispatchEvent(new CustomEvent("chatResponseStart"));
 
     try {
-        const botResponseEntry = await getChatResponce([
+        const botResponseEntry = await getChatResponse([
             ...chatHistory,
             systemMessage,
         ]);
