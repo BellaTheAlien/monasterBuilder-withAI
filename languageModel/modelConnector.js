@@ -1,6 +1,5 @@
 import {ChatGoogleGenerativeAI} from "@langchain/google-genai";
 import {BaseMessage, ToolMessage, SystemMessage} from "@langchain/core/messages";
-import {tool} from "@langchain/core/tools";
 
 const llmTemp = 0;
 

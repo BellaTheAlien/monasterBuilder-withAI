@@ -55,6 +55,7 @@ export class BodyTool {
         const matched = this.bodyTypes.filter(name => name.toLowerCase().includes(`body_${foundColor}`));
 
         const selectedBody = matched[Math.floor(Math.random() * matched.length)];
+        console.log(scene.textures.getFrame("monsterParts", selectedBody));
         scene.my.sprite.body.setTexture("monsterParts", selectedBody);
 
         const x = scene.bodyX ?? 300;
