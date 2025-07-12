@@ -11,7 +11,7 @@ import "./style.css";
 import { BodyTool } from "../languageModel/tools/bodyTool.js";
 import { initializeTools, registerTool } from "../languageModel/modelConnector.js";
 import { sendSystemMessge } from "../languageModel/chatBox.js";
-
+import { monsterScene } from "./Scenes/Monster.js";
 const tools = {
     body: new BodyTool,
 };
@@ -38,7 +38,7 @@ let config = {
     },
     width: 800,
     height: 600,
-    scene: [Monster]
+    scene: [monsterScene]
 }
 
 const game = new Phaser.Game(config);

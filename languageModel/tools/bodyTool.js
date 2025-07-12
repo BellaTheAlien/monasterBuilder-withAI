@@ -1,5 +1,6 @@
 //import {tool} from "langchain/tools";
-//import {Monster} from "../../src/Scenes/Monster.js";
+//import {monsterScene} from "../../src/Scenes/Monster.js";
+//const bodyTool = new BodyTool(() => monsterScene);
 
 export class BodyTool {
     constructor(sceneGetter) {
@@ -19,7 +20,7 @@ export class BodyTool {
             return;
         }
 
-        const spriteelements = cache.getElementsByTageName("SubTextture");
+        const spriteelements = cache.getElementsByTageName("SubTexture");
         for (let i = 0; i < spriteelements.length; i++){
             const name = spriteelements[i].getAttribute("name");
             if(name && name.startsWith("body_")) {
@@ -41,14 +42,38 @@ export class BodyTool {
             return "Monster scene not property initialized.";
         }
 
-        const query = input.trim().toLowerCase();
-        const matched = this.bodyTypes.find(name => name.toLowerCase().includes(query));
+        const query = input.toLowerCase();
 
+        const colors = ["blue", "green", "red", "white", "yellow", "dark"];
+        const foundColor = colors.find(curr => query.includes(curr));
+
+        if(!foundColor){
+            return `I counld't find a body color in your request. Try with one of thses: ${colors.join(",")}`;
+        }
+
+
+        const matched = this.bodyTypes.filter(name => name.toLowerCase().includes(`body_${foundColor}`));
+
+        const selectedBody = matched[Math.floor(Math.random() * matched.length)];
+        scene.my.sprite.body.setTexture("monsterParts", selectedBody);
+
+        const x = scene.bodyX ?? 300;
+        const y = scene.bodyY ?? 350;
+
+        if(scene.my.sprite.body) {
+            scene.my.sprite.body.setTexture("monsterParts", selectedBody);
+        }else{
+            scene.my.sprite.body = scene.add.sprite(x, y, "monsterParts", selectedBody);
+        }
+
+        return `Your monster's body is now "${selectedBody}" (${foundColor}, randomly chosen).`;
+        /*
         if(matched) {
             scene.my.sprite.body.setTexture("monsterParts", matched);
             return `Applied body type "${matched}" to the monster.`
         } else {
             return `No matching body type found for "${input}". Available: ${this.bodyTypes.join(", ")}`;
         }
+            */
     }
 }

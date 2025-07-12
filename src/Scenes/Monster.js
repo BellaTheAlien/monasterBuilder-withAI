@@ -68,7 +68,7 @@ class Monster extends Phaser.Scene {
         // look in spritesheet_default.xml for the individual sprite names
         // You can also download the asset pack and look in the PNG/default folder.
         //body_redF.png -> red long body with furr
-        my.sprite.body = this.add.sprite(this.bodyX, this.bodyY, "monsterParts", "body_darkF.png");
+       // my.sprite.body = this.add.sprite(this.bodyX, this.bodyY, "monsterParts", "body_darkF.png");
 
         //the arms
         my.sprite.rightArm = this.add.sprite(this.rightArmX, this.rightArmY, "monsterParts", "arm_whiteE.png");
@@ -148,4 +148,4 @@ class Monster extends Phaser.Scene {
 
 }
 
-//export const monsterScene = Monster;
+export const monsterScene = new Monster();
